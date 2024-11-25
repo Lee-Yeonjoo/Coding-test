@@ -1,18 +1,24 @@
 import sys
 from collections import deque
 import copy
+from itertools import combinations  #기존 코드는 재귀함수를 이용해 벽을 세웠고, 이는 순열이다. 조합 방식으로 바꾸어 시간초과 해결
 input = sys.stdin.readline
 
 N, M = map(int, input().split())
 lab = [[] for i in range(N)]
 result = 0
 
-def bfs():
+def bfs(empty):
+
     global result
     queue = deque()
     dx = [-1, 1, 0, 0]
     dy = [0, 0, -1, 1]
     temp = copy.deepcopy(lab)
+    
+    #0인 칸에 벽 세우기
+    for i in empty:
+        temp[i[0]][i[1]] = 1
 
     for i in range(N):
         for j in range(M):
@@ -38,21 +44,19 @@ def bfs():
                 count += 1
 
     result = max(result, count)
-
-def make_wall(cnt):
-    if cnt == 3:
-        bfs()
-        return  
-    
-    for i in range(N):
-        for j in range(M):
-            if lab[i][j] == 0:
-                lab[i][j] = 1
-                make_wall(cnt + 1)
-                lab[i][j] = 0  #벽을 다시 원상복귀(백트래킹)
     
 for i in range(N):
     lab[i] = list(map(int, input().split()))
 
-make_wall(0)
+#0인 칸의 좌표 저장
+empty = []
+for i in range(N):
+    for j in range(M):
+        if lab[i][j] == 0:
+            empty.append((i, j))
+
+
+empty = list(combinations(empty, 3)) #조합하는 경우의 수를 저장
+for i in empty:
+    bfs(i)
 print(result)
