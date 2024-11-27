@@ -1,49 +1,39 @@
 import sys
-from collections import Counter
 input = sys.stdin.readline
 
 N = int(input().rstrip())
 
 nums = [0] * N
+sum = 0
 for i in range(N):
     nums[i] = int(input().rstrip())
+    sum += nums[i]
 
 #산술평균
-print(round(sum(nums)/N))
+print(round(sum/N))
 
 #중앙값
 nums.sort()
-mid = int((0 + N-1)/2)
-print(nums[mid])
+print(nums[N//2])
 
-#최빈값
-temp = []
-for i in nums:
-    temp.append(abs(i))
-
-positive = [0] * (max(temp)+1)
-negative = [0] * (max(temp)+1)
+#최빈값 - 딕셔너리 사용
+count = dict()
 
 maxNum = 0
 maxNumList = []
 for i in nums:
-    if i >=0:
-        positive[i] += 1
-        if maxNum < positive[i]:
-            maxNum = positive[i]
+    if i not in count:
+        count[i] = 1
     else:
-        negative[-1 * i] += 1
-        if maxNum < negative[-1 * i]:
-            maxNum = negative[-1 * i]
-
+        count[i] += 1
+    if maxNum < count[i]:
+        maxNum = count[i]
+    
 maxNumList = []
-for i in range(len(positive)):
-    if positive[i] == maxNum:
-        maxNumList.append(i)
-    if negative[i] == maxNum:
-        maxNumList.append(-1 * i)
+for i in count:
+    if count[i] == maxNum:
+       maxNumList.append(i)
 
-maxNumList.sort()
 if len(maxNumList) >= 2:
     print(maxNumList[1])
 else:
