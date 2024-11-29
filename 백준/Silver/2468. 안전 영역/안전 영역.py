@@ -1,5 +1,5 @@
 import sys
-sys.setrecursionlimit(10000001)
+sys.setrecursionlimit(10**6)
 input = sys.stdin.readline
 
 N = int(input().rstrip())
@@ -21,17 +21,13 @@ def dfs(x, y, r):
             if height[nx][ny] > r and visited[nx][ny] == False:
                 dfs(nx, ny, r)
 
-#높이 정보 입력 받으면서 비의 최대량, 최소량 찾기
+#높이 정보 입력 받기
 for _ in range(N):
-    temp = list(map(int, input().split()))
-    temp_max = max(temp)
-    temp_min = min(temp)
-    if rain_max < temp_max:
-        rain_max = temp_max
-    
-    if rain_min > temp_min:
-        rain_min = temp_min
-    height.append(temp)
+    height.append(list(map(int, input().split())))
+
+#비의 최대 최소량 찾기 - 반복을 좀 줄이기 위해
+rain_max = max(map(max, height))
+rain_min = min(map(min, height))
 
 max_cnt = 0
 for r in range(rain_min, rain_max):
