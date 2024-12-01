@@ -1,5 +1,5 @@
+#dfs를 재귀함수 대신 스택(set)을 사용해 시간초과 해결
 import sys
-#sys.setrecursionlimit(10**6)
 input = sys.stdin.readline
 
 R, C = map(int, input().split())
@@ -11,24 +11,28 @@ for i in range(R):
 #상하좌우
 dx = [-1, 1, 0, 0]
 dy = [0, 0, -1, 1]
-visited = set()  #속도 향상을 위해 list대신 set 사용
-max_count = 0
-def dfs(x, y, count):
-    global max_count
-    #방문한 최대 알파벳 수 찾기
-    if max_count < count:
-        max_count = count
 
-    visited.add(alphabet[x][y])   #방문한 알파벳 기록
+def dfs(x, y):
+    max_count = 0
+    
+    stack = set()
+    stack.add((x, y, alphabet[x][y]))  #스택에 알파벳도 넣는 이유는 visited 따로 안 쓰기 위해
 
-    for i in range(4):
-        nx = x + dx[i]
-        ny = y + dy[i]
+    while stack:
+        cx, cy, c_alphabet = stack.pop()
 
-        if nx >= 0 and nx < R and ny >= 0 and ny < C:
-            if alphabet[nx][ny] not in visited:
-                dfs(nx, ny, count + 1)
-                visited.remove(alphabet[nx][ny])  #이웃노드의 dfs 끝나면 방문 알파벳에서 삭제
+        max_count = max(max_count, len(c_alphabet))
+        if max_count == 26:
+            return 26
 
-dfs(0, 0, 1)
-print(max_count)
+        for i in range(4):
+            nx = cx + dx[i]
+            ny = cy + dy[i]
+
+            if nx >= 0 and nx < R and ny >= 0 and ny < C:
+                if alphabet[nx][ny] not in c_alphabet:
+                    stack.add((nx, ny, c_alphabet + alphabet[nx][ny]))
+    
+    return max_count
+
+print(dfs(0, 0))
