@@ -1,27 +1,29 @@
+#X가 있는 라인 번호만큼 반복하는 더 효율적인 코드
 import sys
 input = sys.stdin.readline
 
 X = int(input().rstrip())
 
-fraction = [1] * 2  #1/1을 표현. fraction[0]은 분자, fraction[1]은 분모
-direction = 0
-count = 1
-while count < X :
-    if direction == 0:
-        fraction[1] += 1
-        count += 1
-        while count < X and fraction[1] > 1:
-            fraction[0] += 1
-            fraction[1] -= 1
-            count += 1
-        direction = 1
-    else:
-        fraction[0] += 1
-        count += 1
-        while count < X and fraction[0] > 1:
-            fraction[0] -= 1
-            fraction[1] += 1
-            count += 1
-        direction = 0
+# 1/1
+# 1/2, 2/1
+# 3/1, 2/2, 1/3
+# 1/4, 2/3, 3/2, 4/1
+# 문제의 조건대로 위와 같은 배열을 만들 수 있다.
+# line은 각 행을 나타냄. 라인의 분수의 개수 = 라인, 행
 
-print(f"{fraction[0]}/{fraction[1]}")
+line = 1
+while X > line:
+    X -= line  # X에서 각 라인의 분수의 개수를 뺀다. 
+    line += 1   # 다음 라인으로 증가
+
+# X번째 수가 짝수 라인인 경우
+if line % 2 == 0:
+    a = X
+    b = line - X + 1
+
+# X번째 수가 홀수 라인인 경우
+else:
+    a = line - X + 1
+    b = X
+
+print(f"{a}/{b}")
