@@ -1,3 +1,4 @@
+from bisect import bisect_left, bisect_right
 import sys
 input = sys.stdin.readline
 
@@ -5,39 +6,9 @@ N, M = map(int, input().split())
 points = list(map(int, input().split()))
 points.sort()
 
-def front_bs(front):
-    start = 0
-    end = N-1
-
-    while start <= end:
-        mid = (start + end) // 2
-
-        if points[mid] < front:
-            start = mid + 1
-        elif points[mid] > front:
-            end = mid - 1
-        elif points[mid] == front:
-            return mid
-    
-    return end + 1
-
-def back_bs(back):
-    start = 0
-    end = N-1
-
-    while start <= end:
-        mid = (start + end) // 2
-
-        if points[mid] < back:
-            start = mid + 1
-        elif points[mid] > back:
-            end = mid - 1
-        elif points[mid] == back:
-            return mid
-    
-    return start - 1
-
 for _ in range(M):
     front, back = map(int, input().split())
+    left_index = bisect_left(points, front)  #정렬을 유지하면서 points에 front를 삽입할 가장 왼쪽 인덱스 반환
+    right_index = bisect_right(points, back) #정렬을 유지하면서 points에 back을 삽입할 가장 오른쪽 인덱스 반환
 
-    print(back_bs(back) - front_bs(front) + 1)
+    print(right_index - left_index)
