@@ -15,9 +15,6 @@ while start <= end:
     i = 0
     #모든 강의의 길이를 순회하면서 차곡차곡 mid값을 넘지 않게 저장하고, 마지막 칸에는 나머지 강의 모두 저장
     for j in range(len(lectures)):
-        if lectures[j] > mid:
-            start = mid + 1
-            break
 
         sum += lectures[j]
         if sum > mid:
