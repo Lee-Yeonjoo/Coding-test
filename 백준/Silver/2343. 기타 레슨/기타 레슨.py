@@ -4,8 +4,8 @@ input = sys.stdin.readline
 N, M = map(int, input().split())
 lectures = list(map(int, input().split()))
 
-start = 1
-end = N * max(lectures) #가능한 블루레이의 크기 중 최대값
+start = max(lectures)
+end = sum(lectures) #가능한 블루레이의 크기 중 최대값
 
 while start <= end:
     mid = (start + end) // 2
@@ -26,16 +26,8 @@ while start <= end:
             if i == M:  #영역의 개수를 넘음
                 start = mid + 1
                 break
-            if sum > mid:
-                start = mid + 1
-                break
-            elif sum <= mid and j == len(lectures) - 1:
-                end = mid - 1
-                break
-        #가능한 경우 
-        else:
-            if j == len(lectures) - 1:
-                end = mid - 1
-                break
-
+        if j == len(lectures) - 1:
+            end = mid - 1
+            break
+        
 print(end + 1)
