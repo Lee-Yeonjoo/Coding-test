@@ -13,10 +13,14 @@ for _ in range(M):
 def dfs(x, count):
     global check
 
+    #시간 단축을 위해 더 진행x
+    if check:
+        return
+
     #dfs 깊이가 4이상이면 조건에 해당 
     if count >= 4:
         check = True
-        return
+        return  #이걸 해주니 시간초과가 안남 
 
     visited[x] = True
 
