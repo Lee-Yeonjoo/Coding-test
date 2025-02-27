@@ -8,10 +8,6 @@ graph = [[] for _ in range(N+1)]
 for _ in range(M):
     A, B = map(int, input().split())
 
-    #친구관계가 중복되어 들어올 수도 있다는 문제 조건 때문에 중복 저장 방지 
-    if B in graph[A]:
-        continue
-
     graph[A].append(B)
     graph[B].append(A)
 
