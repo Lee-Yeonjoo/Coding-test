@@ -14,6 +14,6 @@ for i in range(1, N):
 #나머지에 대해 각 경우의 최댓값을 고른 후 자기 자신과 더한다.
 for i in range(1, N):
     for j in range(1, M):
-        maze[i][j] += max(maze[i-1][j], max(maze[i][j-1], maze[i-1][j-1]))
+        maze[i][j] += max(maze[i-1][j], maze[i][j-1], maze[i-1][j-1])
     
 print(maze[N-1][M-1])
