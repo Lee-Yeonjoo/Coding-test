@@ -19,12 +19,12 @@ for i in range(0, N-2):
         # 왼쪽 위 칸이 다르면 뒤집기 - 이후 왼쪽 위칸은 확정됨  
         if A[i][j] != B[i][j]:
             count += 1
-            for r in range(3):
-                for c in range(3):
-                    if (A[i+r][j+c] == 0):
-                        A[i+r][j+c] = 1
+            for r in range(i, i+3):
+                for c in range(j, j+3):
+                    if (A[r][c] == 0):
+                        A[r][c] = 1
                     else:
-                        A[i+r][j+c] = 0
+                        A[r][c] = 0
 
 if A != B:
     print(-1)
