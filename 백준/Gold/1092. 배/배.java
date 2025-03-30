@@ -31,11 +31,9 @@ public class Main {
 
         //크레인의 최대값보다 큰 박스가 있다면 프로그램 종료
         int maxCrane = max(crane);
-        for (Integer i : box) {
-            if (maxCrane < i) {
-                System.out.println(-1);
-                return;
-            }
+        if (maxCrane < box.get(0)) {
+            System.out.println(-1);
+            return;
         }
 
         int answer = 0;
