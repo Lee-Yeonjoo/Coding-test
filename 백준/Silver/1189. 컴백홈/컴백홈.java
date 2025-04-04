@@ -5,18 +5,22 @@ import java.util.StringTokenizer;
 
 public class Main {
     static int answer = 0;  //값 유지하기 위해 static 변수
+    static int R,C,K;
+    static int[] dx = {-1, 1, 0, 0};
+    static int[] dy = {0, 0, -1, 1};
+    static int[][] visited;
 
     public static void main(String[] args) throws IOException{
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int R = Integer.parseInt(st.nextToken());
-        int C = Integer.parseInt(st.nextToken());
-        int K = Integer.parseInt(st.nextToken());
+        R = Integer.parseInt(st.nextToken());
+        C = Integer.parseInt(st.nextToken());
+        K = Integer.parseInt(st.nextToken());
 
+        visited = new int[R][C];
 
-        int[][] visited = new int[R][C];
         for (int i = 0; i < R; i++) {
             String x = br.readLine();
             for (int j = 0; j < C; j++) {
@@ -38,10 +42,12 @@ public class Main {
             return;
         }
 
-        visited[i][j] = 1;  //방문 표시
+        //거리K는 만족하지 않지만 도착지에 왔다면 종료
+        if (i == 0 && j == C - 1) {
+            return;
+        }
 
-        int[] dx = {-1, 1, 0, 0};
-        int[] dy = {0, 0, -1, 1};
+        visited[i][j] = 1;  //방문 표시
 
         //이웃 탐색
         for (int s = 0; s < 4; s++) {
