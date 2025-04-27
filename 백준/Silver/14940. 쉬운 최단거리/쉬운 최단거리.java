@@ -47,7 +47,7 @@ public class Main {
                 if (graph[i][j] != 0) {
                     answer[i][j] = -1;  //-1로 초기화. 도달할 수 없는 위치
                 }
-                
+
                 //목표 지점 저장
                 if (graph[i][j] == 2) {
                     x = i;
@@ -58,12 +58,16 @@ public class Main {
 
         bfs(x, y);
 
+        //출력할게 많으면 StringBuilder로 출력 - 더 효율적
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                System.out.print(answer[i][j] + " ");
+                sb.append(answer[i][j]).append(" ");
             }
-            System.out.println();
+            sb.append("\n");
         }
+
+        System.out.println(sb);
     }
 
     static void bfs(int x, int y) {
@@ -91,7 +95,6 @@ public class Main {
                 }
 
                 if (graph[nx][ny] == 0) {
-                    answer[nx][ny] = 0;  //갈 수 없는 땅 표시
                     continue;
                 }
 
