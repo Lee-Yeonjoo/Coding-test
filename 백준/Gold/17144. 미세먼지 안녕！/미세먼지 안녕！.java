@@ -27,6 +27,7 @@ public class Main {
         int C = Integer.parseInt(st.nextToken());
         int T = Integer.parseInt(st.nextToken());
 
+        int dust = 0;  //먼지의 총량
         int[][] room = new int[R][C];
         int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
         for (int i = 0; i < R; i++) {
@@ -36,7 +37,7 @@ public class Main {
                 if (room[i][j] == -1) {  //공기청정기의 좌표2
                     x2 = i;
                     y2 = j;
-                }
+                } else dust += room[i][j];
             }
         }
         //공기청정기의 좌표1
@@ -47,7 +48,7 @@ public class Main {
         for (int t = 0; t < T; t++) {
             Queue<Dust> dustList = new LinkedList<>();
 
-            //먼지가 있는 칸을 큐에 저장 -> 원본 먼지량을 저장하기 위해 
+            //먼지가 있는 칸을 큐에 저장 -> 원본 먼지량을 저장하기 위해
             for (int i = 0; i < R; i++) {
                 for (int j = 0; j < C; j++) {
                     if (room[i][j] > 4) {
@@ -56,7 +57,7 @@ public class Main {
                 }
             }
 
-            //큐가 빌 때까지 먼지 확산 
+            //큐가 빌 때까지 먼지 확산
             while (!dustList.isEmpty()) {
                 Dust dust1 = dustList.poll();
 
@@ -71,7 +72,7 @@ public class Main {
                         continue;
                     }
 
-                    //공기청정기 위치면 무시 
+                    //공기청정기 위치면 무시
                     if (room[nx][ny] == -1) {
                         continue;
                     }
@@ -80,8 +81,9 @@ public class Main {
                     room[dust1.x][dust1.y] -= d;
                 }
             }
-            
+
             //공기 청정기 코드
+            dust -= room[x1 - 1][y1];  //먼지 총량에서 공기청정기로 없어진 먼지 빼기
             //위쪽 공기청정기에 의한 이동
             for (int i = x1 - 2; i >= 0; i--) {
                 room[i+1][0] = room[i][0];
@@ -97,6 +99,7 @@ public class Main {
             }
             room[x1][y1 + 1] = 0;
 
+            dust -= room[x2 + 1][y2];
             //아래쪽 공기청정기에 의한 이동
             for (int i = x2 + 2; i < R; i++) {
                 room[i - 1][0] = room[i][0];
@@ -113,14 +116,6 @@ public class Main {
             room[x2][y2 + 1] = 0;
         }
 
-        int sum = 0;
-        for (int i = 0; i < R; i++) {
-            for (int j = 0; j < C; j++) {
-                if (room[i][j] != -1) {
-                    sum += room[i][j];
-                }
-            }
-        }
-        System.out.println(sum);
+        System.out.println(dust);
     }
 }
