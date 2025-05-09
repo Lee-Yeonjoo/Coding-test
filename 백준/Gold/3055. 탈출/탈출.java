@@ -9,6 +9,7 @@ import java.util.List;
 public class Main {
     static int R, C;
     static char[][] map;
+    static Queue<Node> q;
     static class Node {
         int x;
         int y;
@@ -33,8 +34,7 @@ public class Main {
         map = new char[R][C];
         int x = 0, y = 0;
         //홍수는 여러 개일 수 있다..
-        List<Point> flood = new ArrayList<>();
-
+        q = new LinkedList<>();
         for (int i = 0; i < R; i++) {
             String input = br.readLine();
             for (int j = 0; j < C; j++) {
@@ -43,27 +43,21 @@ public class Main {
                     x = i;
                     y = j;
                 } else if (map[i][j] == '*') {
-                    flood.add(new Point(i, j));
+                    //홍수들을 먼저 큐에 넣는다.
+                    q.add(new Node(i, j, 0, true));
                 }
             }
         }
 
-        bfs(x, y, flood);  //bfs 탐색
+        bfs(x, y);  //bfs 탐색
     }
 
-    static void bfs(int x, int y, List<Point> flood) {
-        Queue<Node> q = new LinkedList<>();
+    static void bfs(int x, int y) {
         boolean[][] visited = new boolean[R][C];  //고슴도치의 방문 여부 표시
         //상하좌우 방향 벡터
         int[] dx = {-1, 1, 0, 0};
         int[] dy = {0, 0, -1, 1};
 
-        //System.out.println(x + " " + y + " " + floodX + " " + floodY);
-
-        //홍수들을 먼저 큐에 넣는다.
-        for (Point point : flood) {
-            q.add(new Node(point.x, point.y, 0, true));
-        }
         q.add(new Node(x, y, 0, false));  //고슴도치 시작위치도 큐에 삽입
         visited[x][y] = true;
 
