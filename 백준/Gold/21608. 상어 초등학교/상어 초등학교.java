@@ -36,11 +36,9 @@ public class Main {
             result = process2(result);  //두번째 자리 후보 리스트 반환
             //프로세스3 - 좌표들을 행과 열에 대해 오름차순 정렬
             result.sort((o1,o2)-> {
-                if (o1.x < o2.x) {
-                    return -1;
-                } else if (o1.x == o2.x) {
+                if (o1.x == o2.x) {
                     return Integer.compare(o1.y, o2.y);
-                } else return 1;
+                } else return Integer.compare(o1.x, o2.x);
             });
             Point point = result.get(0);  //가장 행과 열이 작은 자리에 배정
             seat[point.x][point.y] = studentNum;
