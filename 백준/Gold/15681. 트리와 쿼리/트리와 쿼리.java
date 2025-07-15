@@ -36,10 +36,12 @@ public class Main {
         visited = new boolean[N + 1];
         dfs(R);
 
-        //쿼리 답 출력
+        //쿼리 답 출력 -> 출력을 최대 10만 줄 해야하니까 sb사용 꼭
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < Q; i++) {
-            System.out.println(subtreeCount[Integer.parseInt(br.readLine())]);
+            sb.append(subtreeCount[Integer.parseInt(br.readLine())]).append("\n");
         }
+        System.out.println(sb);
     }
 
     static void dfs(int x) {
