@@ -36,10 +36,15 @@ public class Main {
             if (puddle.start > endPoint) {  //널빤지가 이어지지 않고, 새로 시작하는 경우 -> 시작지점에 새 널빤지
                 endPoint = puddle.start;
             }
-            //널빤지가 웅덩이를 다 덮을 때까지 추가
-            while (endPoint < puddle.end) {
-                endPoint += L;
-                count++;
+            if (puddle.end > endPoint) {  //dist 계산 때문에 조건문 필요
+                int dist = puddle.end - endPoint;
+                count += dist / L;  //새로 추가할 널빤지 개수 계산
+                int remain = dist % L;
+                endPoint = puddle.end;  //끝 지점이자 다음 시작지점
+                if (remain != 0) {  //나머지가 0이 아닐 경우 널빤지 추가
+                    count++;
+                    endPoint += L - remain;  //끝 지점 수정
+                }
             }
         }
         System.out.println(count);
