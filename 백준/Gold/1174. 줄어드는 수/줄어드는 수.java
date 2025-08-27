@@ -1,49 +1,41 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-//브루트포스, 백트래킹
+//브루트포스, 백트래킹 -> 자릿수별로 반복이 아니라 딱 한번만 반복해서 1023번째 수까지 다 구하는 방법 -> 이 방법은 백트래킹도 필요없음 올바른 범위만 탐색하기 때문
 public class Main {
     static int N;
-    static int digits;  //자릿수의 개수
-    static int count;  //몇번째인지 세는 변수 - 수가 완성될 때마다 증가
+    static List<Long> decreasingNums = new ArrayList<>();
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
 
-        //마지막 수가 1023번째이므로 그 이후의 수는 예외처리
+        //예외 처리
         if (N > 1023) {
             System.out.println(-1);
             System.exit(0);
         }
 
-        //각 자릿수에 대해 반복
-        for (int i = 1; i <= 10; i++) {
-            digits = i;
-            solution(0, 0, 10);  //depth를 0부터 시작해야 한자리수도 구할 수 있음
+        //각 반복 시 0~9로 시작하는 수에 대해 줄어드는 수 구하기
+        for (int i = 0; i <= 9; i++) {
+            solution(i, i);
         }
+
+        //0으로 시작하는 수, 1로 시작하는 수... 이렇게 따로 구했으므로 정렬 필요
+        Collections.sort(decreasingNums);
+        System.out.println(decreasingNums.get(N - 1));
     }
 
-    static void solution(int depth, long num, int lastNum) {
-        //자릿수를 다 채워서 숫자가 완성된 경우
-        if (depth == digits) {
-            //완성된 수가 N번째인 경우
-            if (++count == N) {
-                System.out.println(num);
-                System.exit(0);
-            }
-        }
+    static void solution(long num, int lastNum) {
+        //num은 무조건 줄어드는 수이므로 list에 추가
+        decreasingNums.add(num);
 
-        //숫자 0~9까지 탐색
-        for (int i = 0; i <= 9; i++) {
-            if (lastNum <= i) {
-                continue;
-            }
-
-            long temp = num;
-            num = (num * 10) + i;  //다음 자릿수를 추가한 값
-            solution(depth + 1, num, i);  //추가한 값에 대해 또 탐색
-            num = temp;  //백트래킹
+        //새로 추가할 숫자가 lastNum보다 작아야함
+        for (int i = 0; i < lastNum; i++) {
+            solution((num * 10) + i, i);  //추가한 값에 대해 또 탐색
         }
     }
 }
