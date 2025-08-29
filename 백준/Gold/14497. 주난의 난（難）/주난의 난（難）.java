@@ -14,6 +14,17 @@ public class Main {
     static char[][] classInfo;
     static boolean isChoco = false;
     static int jumpCount = 0;
+    
+    static class Node {
+        int x;
+        int y;
+
+        Node(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+    
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -40,17 +51,17 @@ public class Main {
     static void bfs() {
         int[] dx = {-1, 1, 0, 0};
         int[] dy = {0, 0, -1, 1};
-        Queue<int[]> q = new ArrayDeque<>();  //LinkedList보다 ArrayDeque가 bfs에 더 적합
-        q.add(new int[]{junanX, junanY});     //Point클래스는 GUI 관련 클래스라 Node클래스를 따로 만들거나, int배열 쓰는게 더 빠르다
+        Queue<Node> q = new ArrayDeque<>();  //LinkedList보다 ArrayDeque가 bfs에 더 적합
+        q.add(new Node(junanX, junanY));     //Point클래스는 GUI 관련 클래스라 Node클래스를 따로 만들거나, int배열 쓰는게 더 빠르다
         boolean[][] visited = new boolean[N][M];
         visited[junanX][junanY] = true;
 
         while (!q.isEmpty()) {
-            int[] curr = q.poll();
+            Node curr = q.poll();
 
             for (int i = 0; i < 4; i++) {
-                int nx = curr[0] + dx[i];
-                int ny = curr[1] + dy[i];
+                int nx = curr.x + dx[i];
+                int ny = curr.y + dy[i];
 
                 if (nx < 0 || nx >= N || ny < 0 || ny >= M) {
                     continue;
@@ -60,7 +71,7 @@ public class Main {
                     visited[nx][ny] = true;
                     //0인 경우에만 계속 탐색
                     if (classInfo[nx][ny] == '0') {
-                        q.add(new int[]{nx, ny});
+                        q.add(new Node(nx, ny));
                     }
                     //초코 도둑 찾은 경우
                     else if (classInfo[nx][ny] == '#') {
