@@ -11,16 +11,14 @@ public class Main {
         StringTokenizer st = new StringTokenizer(br.readLine());
         int N = Integer.parseInt(st.nextToken());
         int K = Integer.parseInt(st.nextToken());
-        int[][] dp = new int[K + 1][N + 1];  //경우의 수(행=더해지는 수의 개수, 열=합)
-        Arrays.fill(dp[1], 1);
+        int[] dp = new int[N + 1];  //합이 N일 떄의 경우의 수
+        Arrays.fill(dp, 1);
 
-        for (int i = 2; i < K + 1; i++) {
-            for (int j = 0; j < N + 1; j++) {
-                if (j > 0) {
-                    dp[i][j] = (dp[i - 1][j] + dp[i][j - 1]) % 1000000000;
-                } else dp[i][j] = dp[i - 1][j];
+        for (int i = 0; i < K - 1; i++) {
+            for (int j = 1; j < N + 1; j++) {
+                dp[j] = (dp[j - 1] + dp[j]) % 1000000000;
             }
         }
-        System.out.println(dp[K][N] % 1000000000);
+        System.out.println(dp[N]);
     }
 }
