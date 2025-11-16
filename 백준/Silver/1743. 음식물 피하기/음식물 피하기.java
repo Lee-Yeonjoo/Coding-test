@@ -24,7 +24,7 @@ public class Main {
         int maxFood = 0;
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < M; j++) {
-                if (map[i][j]) {  //음식물이 있는 칸이면 탐색
+                if (map[i][j] && !visited[i][j]) {  //음식물이 있는 칸이면 탐색
                     count = 0;
                     dfs(i, j);
                     maxFood = Math.max(maxFood, count);
