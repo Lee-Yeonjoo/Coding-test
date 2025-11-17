@@ -21,12 +21,12 @@ public class Main {
         }
 
         long mid = (start + end) / 2;
-        while (start <= end) {
+        while (start < end) {
             mid = (start + end) / 2;
 
             //K = mid일 때, 조건을 만족하면 K를 줄이기(최소 K를 찾아야하니까), 불만족하면 K를 늘리기
             if (isValid(mid)) {
-                end = mid - 1;
+                end = mid;  //mid를 포함
             } else {
                 start = mid + 1;
             }
